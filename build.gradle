@@ -1,0 +1,67 @@
+plugins {
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+}
+
+android {
+    namespace 'io.github.abdulroufsidhu.easy_twilio_caller'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 21
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    // Specify that we want to split up the APK based on ABI
+    splits {
+        abi {
+            // Enable ABI split
+            enable true
+
+            // Clear list of ABIs
+            reset()
+
+            // Specify each architecture currently supported by the Video SDK
+            include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+
+            // Specify that we do not want an additional universal SDK
+            universalApk false
+        }
+    }
+}
+
+dependencies {
+
+    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "com.google.android.material:material:1.9.0"
+    testImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.2.0') // Bom
+    api "com.google.firebase:firebase-messaging" // Messaging
+
+    // Twilio
+    api "com.twilio:audioswitch:1.1.8"
+    api "com.twilio:voice-android:6.2.1"
+
+}
